@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    public enum MapType { NoiseMap }
+    public enum MapType { NoiseMap, Mesh }
 
     [SerializeField] MapType mapType;
     [SerializeField] bool autoUpdate;
@@ -12,9 +12,15 @@ public class WorldManager : MonoBehaviour
     [Header("General Data")]
     [SerializeField] int mapChunkSize;
     [SerializeField] NoiseData noiseData;
+    [SerializeField] TextureData textureData;
+    [SerializeField] MapRenderer noiseMapRenderer;
 
-    [Header("Noise Map Data")]
-    [SerializeField] NoiseMapRenderer noiseMapRenderer;
+    //[Header("Noise Map Data")]
+
+    [Header("Mesh Data")]
+    [Range(0, 6)]
+    public int editorLevelofDetail;
+    [SerializeField] TerrainData terrainData;
 
     private void Awake()
     {
@@ -36,6 +42,16 @@ public class WorldManager : MonoBehaviour
             noiseData.OnValuesUpdated -= OnValuesUpdated;
             noiseData.OnValuesUpdated += OnValuesUpdated;
         }
+        if (terrainData != null)
+        {
+            terrainData.OnValuesUpdated -= OnValuesUpdated;
+            terrainData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if (textureData != null)
+        {
+            textureData.OnValuesUpdated -= OnValuesUpdated;
+            textureData.OnValuesUpdated += OnValuesUpdated;
+        }
     }
 
     // Start is called before the first frame update
@@ -56,6 +72,10 @@ public class WorldManager : MonoBehaviour
         if (mapType == MapType.NoiseMap)
         {
             noiseMapRenderer.DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+        }
+        if(mapType == MapType.Mesh)
+        {
+            noiseMapRenderer.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
         }
     }
 
@@ -81,7 +101,7 @@ public class WorldManager : MonoBehaviour
                 }
             }
         }*/
-        /*for (int x = 0; x < mapChunkSize; x++)
+        for (int x = 0; x < mapChunkSize; x++)
         {
             for (int y = 0; y < mapChunkSize; y++)
             {
@@ -94,7 +114,7 @@ public class WorldManager : MonoBehaviour
                     }
                 }
             }
-        }*/
+        }
         return new MapData(noiseMap, colorMap);
     }
 
