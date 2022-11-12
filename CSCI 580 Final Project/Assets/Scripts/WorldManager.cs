@@ -22,6 +22,9 @@ public class WorldManager : MonoBehaviour
     public int editorLevelofDetail;
     [SerializeField] TerrainData terrainData;
 
+    float[,] falloffMap;
+    float[,] circleFalloffMap;
+
     private void Awake()
     {
         DrawMapInEditor();
@@ -76,6 +79,7 @@ public class WorldManager : MonoBehaviour
         if(mapType == MapType.Mesh)
         {
             noiseMapRenderer.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
+            noiseMapRenderer.DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
         }
     }
 
@@ -83,7 +87,7 @@ public class WorldManager : MonoBehaviour
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistence, noiseData.lacunarity, center + noiseData.offset, noiseData.normalizeMode);
         Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
-        /*if (terrainData.useFalloff)
+        if (terrainData.useFalloff)
         {
             if (falloffMap == null)
             {
@@ -93,14 +97,21 @@ public class WorldManager : MonoBehaviour
             {
                 for (int y = 0; y < mapChunkSize + 2; y++)
                 {
-                    if (terrainData.useFalloff)
-                    {
-                        noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
-                    }
-
+                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
                 }
             }
-        }*/
+        }
+        if (terrainData.useCircleFalloff)
+        {
+            circleFalloffMap = FalloffGenerator.GenerateCircularFalloffMap(mapChunkSize + 2, terrainData.circleFalloffRadius, terrainData.circleFalloffGradient);
+            for (int x = 0; x < mapChunkSize + 2; x++)
+            {
+                for (int y = 0; y < mapChunkSize + 2; y++)
+                {
+                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - circleFalloffMap[x, y]);
+                }
+            }
+        }
         for (int x = 0; x < mapChunkSize; x++)
         {
             for (int y = 0; y < mapChunkSize; y++)

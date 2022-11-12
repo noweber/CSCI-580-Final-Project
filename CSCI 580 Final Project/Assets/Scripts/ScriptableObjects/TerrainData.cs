@@ -12,6 +12,9 @@ public class TerrainData : UpdatableData
 
     public bool useFlatShading;
     public bool useFalloff;
+    public bool useCircleFalloff;
+    public float circleFalloffRadius = 10;
+    public float circleFalloffGradient = 1;
     public float meshHeightMultiplier;
     public AnimationCurve meshAnimationCurve;
 

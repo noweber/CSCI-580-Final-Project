@@ -18,7 +18,10 @@ MonoBehaviour:
   waterScale: 24
   useFlatShading: 1
   useFalloff: 0
-  meshHeightMultiplier: 20
+  useCircleFalloff: 1
+  circleFalloffRadius: 50
+  circleFalloffGradient: 30
+  meshHeightMultiplier: 15
   meshAnimationCurve:
     serializedVersion: 2
     m_Curve:
