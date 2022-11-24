@@ -10,10 +10,15 @@ public class WorldManager : MonoBehaviour
     [SerializeField] bool autoUpdate;
     public bool AutoUpdate => autoUpdate;
     [Header("General Data")]
+    [Range(1,100)]
     [SerializeField] int mapChunkSize;
+    [Range(1, 10)]
+    [SerializeField] int chunkGridWidth;
+    [Range(1, 10)]
+    [SerializeField] int chunkGridHeight;
     [SerializeField] NoiseData noiseData;
     [SerializeField] TextureData textureData;
-    [SerializeField] MapRenderer noiseMapRenderer;
+    [SerializeField] GameObject noiseMapRendererPrefab;
 
     //[Header("Noise Map Data")]
 
@@ -24,6 +29,8 @@ public class WorldManager : MonoBehaviour
 
     float[,] falloffMap;
     float[,] circleFalloffMap;
+
+    List<GameObject> terrainObjs;
 
     private void Awake()
     {
@@ -71,16 +78,47 @@ public class WorldManager : MonoBehaviour
 
     public void DrawMapInEditor()
     {
-        MapData mapData = GenerateMapData(Vector2.zero);
-        if (mapType == MapType.NoiseMap)
+        if(terrainObjs == null)
         {
-            noiseMapRenderer.DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+            terrainObjs = new List<GameObject>();
         }
-        if(mapType == MapType.Mesh)
+
+        if(terrainObjs.Count > 0)
         {
-            noiseMapRenderer.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
-            noiseMapRenderer.DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+            foreach(var obj in terrainObjs)
+            {
+                DestroyImmediate(obj);
+            }
+            terrainObjs.Clear();
         }
+
+        transform.position = Vector3.zero;
+
+        for (int x = 0; x < chunkGridWidth; x++)
+        {
+            for (int y = 0; y < chunkGridHeight; y++)
+            {
+                Vector2 chunkPos = new Vector2(0 + (x * (mapChunkSize-1)), 0 + (y * (mapChunkSize-1)));
+                MapData mapData = GenerateMapData(chunkPos);
+                if (mapType == MapType.NoiseMap)
+                {
+                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab,new Vector3(chunkPos.x-1,0,chunkPos.y-1),Quaternion.identity,this.transform);
+                    noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+                    terrainObjs.Add(noiseMapRenderer);
+                }
+                if(mapType == MapType.Mesh)
+                {
+
+                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab, new Vector3(chunkPos.x-1, 0, chunkPos.y-1), Quaternion.identity, this.transform);
+                    noiseMapRenderer.GetComponent<MapRenderer>().DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
+                    noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+                    terrainObjs.Add(noiseMapRenderer);
+                }
+            }
+        }
+        float gridWidthMultiplier = chunkGridWidth-1;
+        float gridHeightMultiplier = chunkGridHeight-1;
+        this.transform.position = new Vector3(gridWidthMultiplier*-((mapChunkSize-1)/2),0,gridHeightMultiplier*-((mapChunkSize-1)/2));
     }
 
     MapData GenerateMapData(Vector2 center)
