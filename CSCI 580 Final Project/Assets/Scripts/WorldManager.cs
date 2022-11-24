@@ -127,21 +127,21 @@ public class WorldManager : MonoBehaviour
                 //Vertical Top
                 case 0:
                     wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * mapChunkSize)/2)+1);
-                    wall.transform.localScale = new Vector3((chunkGridHeight * mapChunkSize) - 1, wallHeight, 1);
+                    wall.transform.localScale = new Vector3((chunkGridWidth * mapChunkSize) - 1, wallHeight, 1);
                     break;
                 //Vertical Bottom
                 case 1:
                     wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * mapChunkSize) / 2)-1);
-                    wall.transform.localScale = new Vector3((chunkGridHeight * mapChunkSize) - 1, wallHeight, 1);
+                    wall.transform.localScale = new Vector3((chunkGridWidth * mapChunkSize) - 1, wallHeight, 1);
                     break;
                 //Horizontal Left
                 case 2:
-                    wall.transform.position = new Vector3(((chunkGridHeight * mapChunkSize) / 2) - 1, wallHeightOffset, 0);
+                    wall.transform.position = new Vector3(((chunkGridWidth * mapChunkSize) / 2) - 1, wallHeightOffset, 0);
                     wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize)+1);
                     break;
                 //Horizontal Right
                 case 3:
-                    wall.transform.position = new Vector3(-((chunkGridHeight * mapChunkSize) / 2) + 1, wallHeightOffset, 0);
+                    wall.transform.position = new Vector3(-((chunkGridWidth * mapChunkSize) / 2) + 1, wallHeightOffset, 0);
                     wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize) + 1);
                     break;
             }
