@@ -114,6 +114,7 @@ public class WorldManager : MonoBehaviour
                     var noiseMapRenderer = Instantiate(noiseMapRendererPrefab, new Vector3(chunkPos.x-1, 0, chunkPos.y-1), Quaternion.identity, this.transform);
                     noiseMapRenderer.GetComponent<MapRenderer>().DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
                     noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+                    //noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
                     terrainObjs.Add(noiseMapRenderer);
                 }
             }
