@@ -18,7 +18,7 @@ MonoBehaviour:
   waterScale: 24
   useFlatShading: 1
   useFalloff: 0
-  useCircleFalloff: 1
+  useCircleFalloff: 0
   circleFalloffRadius: 50
   circleFalloffGradient: 30
   meshHeightMultiplier: 15
