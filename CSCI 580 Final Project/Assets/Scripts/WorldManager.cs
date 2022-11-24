@@ -16,6 +16,8 @@ public class WorldManager : MonoBehaviour
     [SerializeField] int chunkGridWidth;
     [Range(1, 10)]
     [SerializeField] int chunkGridHeight;
+    [SerializeField] float wallHeight;
+    [SerializeField] float wallHeightOffset;
     [SerializeField] NoiseData noiseData;
     [SerializeField] TextureData textureData;
     [SerializeField] GameObject noiseMapRendererPrefab;
@@ -115,6 +117,34 @@ public class WorldManager : MonoBehaviour
                     terrainObjs.Add(noiseMapRenderer);
                 }
             }
+        }
+        for(int i = 0; i < 4; i++)
+        {
+            var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            switch(i)
+            {
+                //Vertical Top
+                case 0:
+                    wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * mapChunkSize)/2)+1);
+                    wall.transform.localScale = new Vector3((chunkGridHeight * mapChunkSize) - 1, wallHeight, 1);
+                    break;
+                //Vertical Bottom
+                case 1:
+                    wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * mapChunkSize) / 2)-1);
+                    wall.transform.localScale = new Vector3((chunkGridHeight * mapChunkSize) - 1, wallHeight, 1);
+                    break;
+                //Horizontal Left
+                case 2:
+                    wall.transform.position = new Vector3(((chunkGridHeight * mapChunkSize) / 2) - 1, wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize)+1);
+                    break;
+                //Horizontal Right
+                case 3:
+                    wall.transform.position = new Vector3(-((chunkGridHeight * mapChunkSize) / 2) + 1, wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize) + 1);
+                    break;
+            }
+            terrainObjs.Add(wall);
         }
         float gridWidthMultiplier = chunkGridWidth-1;
         float gridHeightMultiplier = chunkGridHeight-1;
