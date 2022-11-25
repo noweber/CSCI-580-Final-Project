@@ -11,14 +11,14 @@ public class MapRenderer : MonoBehaviour
         var tempMaterial = new Material(textureRender.sharedMaterial);
         textureRender.sharedMaterial.mainTexture = texture;
         textureRender.sharedMaterial = tempMaterial;
-        //textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
+        // textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
     }
 
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
-        var tempMaterial = new Material(textureRender.sharedMaterial);
-        tempMaterial.mainTexture = texture;
-        textureRender.sharedMaterial = tempMaterial;
+        // var tempMaterial = new Material(textureRender.sharedMaterial);
+        // tempMaterial.mainTexture = texture;
+        // textureRender.sharedMaterial = tempMaterial;
     }
 }
