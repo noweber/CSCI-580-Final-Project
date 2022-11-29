@@ -8,13 +8,17 @@ public class MapRenderer : MonoBehaviour
     [SerializeField] MeshFilter meshFilter;
     public void DrawTexture(Texture2D texture)
     {
-        textureRender.sharedMaterial.mainTexture = texture;
-        //textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
+        var tempMaterial = new Material(textureRender.sharedMaterial);
+        tempMaterial.mainTexture = texture;
+        textureRender.sharedMaterial = tempMaterial;
+        // textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
     }
 
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
-        textureRender.sharedMaterial.mainTexture = texture;
+        // var tempMaterial = new Material(textureRender.sharedMaterial);
+        // tempMaterial.mainTexture = texture;
+        // textureRender.sharedMaterial = tempMaterial;
     }
 }

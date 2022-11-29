@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: DefaultTerrainData
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformScale: 5
+  uniformScale: 1
   waterHeight: 1
   waterScale: 24
   useFlatShading: 1
   useFalloff: 0
   useCircleFalloff: 1
-  circleFalloffRadius: 50
-  circleFalloffGradient: 30
-  meshHeightMultiplier: 15
+  circleFalloffRadius: 57.2
+  circleFalloffGradient: 30.3
+  meshHeightMultiplier: 30
   meshAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -37,8 +37,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
