@@ -5,14 +5,19 @@ using UnityEngine;
 public class ObjectPopulator : MonoBehaviour
 {
     [SerializeField] float raycastStartHeight;
-    [SerializeField] GameObject prefabToSpawn;
     [SerializeField] float minPoissonRadius;
     [SerializeField] float maxPoissonRadius;
     [SerializeField] float minSpawnHeight;
     [SerializeField] float maxSpawnHeight;
 
+    GameObject prefabToSpawn;
+
     public void SpawnObjects(Transform parentMesh, NoiseData noiseData, TerrainData terrainData, float[,] noiseMap, float mapChunkSize, Transform parentObj)
     {
+        if(prefabToSpawn == null)
+        {
+            return;
+        }
         List<Vector2> objectSpawnPoints = PoissonDiscSampler.GeneratePoints(noiseData.seed, minPoissonRadius, maxPoissonRadius, new Vector2(mapChunkSize, mapChunkSize));
         foreach (Vector2 objectSpawnPoint in objectSpawnPoints)
         {
@@ -33,5 +38,10 @@ public class ObjectPopulator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetTreeType(GameObject treePrefab)
+    {
+        prefabToSpawn = treePrefab;
     }
 }
