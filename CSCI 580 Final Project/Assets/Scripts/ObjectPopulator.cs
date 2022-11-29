@@ -13,7 +13,6 @@ public class ObjectPopulator : MonoBehaviour
 
     public void SpawnObjects(Transform parentMesh, NoiseData noiseData, TerrainData terrainData, float[,] noiseMap, float mapChunkSize, Transform parentObj)
     {
-        Debug.Log("Spawning");
         List<Vector2> objectSpawnPoints = PoissonDiscSampler.GeneratePoints(noiseData.seed, minPoissonRadius, maxPoissonRadius, new Vector2(mapChunkSize, mapChunkSize));
         foreach (Vector2 objectSpawnPoint in objectSpawnPoints)
         {

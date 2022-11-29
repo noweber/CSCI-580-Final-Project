@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DefaultTerrainData
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformScale: 5
+  uniformScale: 1
   waterHeight: 1
   waterScale: 24
-  useFlatShading: 0
+  useFlatShading: 1
   useFalloff: 0
   useCircleFalloff: 1
   circleFalloffRadius: 57.2
