@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Demo.unity
     guid: 20472d1643996b64c83b4725ac5ac50f
+  - enabled: 1
+    path: Assets/Scenes/StewartTesting.unity
+    guid: 54fbedb0fbe3eba4a9b076861e6f29a3
   m_configObjects: {}
