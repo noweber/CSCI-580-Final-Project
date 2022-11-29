@@ -28,6 +28,7 @@ public class WorldManager : MonoBehaviour
     [Range(0, 6)]
     public int editorLevelofDetail;
     [SerializeField] TerrainData terrainData;
+    [SerializeField] ObjectPopulator objectPopulator;
 
     float[,] falloffMap;
     float[,] circleFalloffMap;
@@ -94,7 +95,7 @@ public class WorldManager : MonoBehaviour
             terrainObjs.Clear();
         }
 
-        transform.position = Vector3.zero;
+        this.transform.position = Vector3.zero;
 
         for (int x = 0; x < chunkGridWidth; x++)
         {
@@ -104,16 +105,24 @@ public class WorldManager : MonoBehaviour
                 MapData mapData = GenerateMapData(chunkPos);
                 if (mapType == MapType.NoiseMap)
                 {
-                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab,new Vector3(chunkPos.x-1,0,chunkPos.y-1),Quaternion.identity,this.transform);
+                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab,new Vector3(chunkPos.x,0,chunkPos.y),Quaternion.identity,this.transform);
                     noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
                     terrainObjs.Add(noiseMapRenderer);
                 }
                 if(mapType == MapType.Mesh)
                 {
 
-                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab, new Vector3(chunkPos.x-1, 0, chunkPos.y-1), Quaternion.identity, this.transform);
+                    var noiseMapRenderer = Instantiate(noiseMapRendererPrefab, new Vector3(chunkPos.x, 0, chunkPos.y), Quaternion.identity, this.transform);
                     noiseMapRenderer.GetComponent<MapRenderer>().DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
-                    noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+                    noiseMapRenderer.AddComponent<MeshCollider>();
+                    //Object Container
+                    noiseMapRenderer.tag = "Terrain";
+                    GameObject terrainObjectParent = new GameObject();
+                    terrainObjectParent.name = "Object Parent";
+                    terrainObjectParent.transform.parent = noiseMapRenderer.transform;
+                    terrainObjectParent.transform.localPosition = Vector3.zero;
+                    objectPopulator.SpawnObjects(noiseMapRenderer.transform, noiseData, terrainData, mapData.heightMap, mapChunkSize, terrainObjectParent.transform);
+                    //noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
                     //noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
                     terrainObjs.Add(noiseMapRenderer);
                 }
@@ -126,23 +135,23 @@ public class WorldManager : MonoBehaviour
             {
                 //Vertical Top
                 case 0:
-                    wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * mapChunkSize)/2)+1);
-                    wall.transform.localScale = new Vector3((chunkGridWidth * mapChunkSize) - 1, wallHeight, 1);
+                    wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * (mapChunkSize-1))/2));
+                    wall.transform.localScale = new Vector3((chunkGridWidth * (mapChunkSize-1)), wallHeight, 1);
                     break;
                 //Vertical Bottom
                 case 1:
-                    wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * mapChunkSize) / 2)-1);
-                    wall.transform.localScale = new Vector3((chunkGridWidth * mapChunkSize) - 1, wallHeight, 1);
+                    wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * (mapChunkSize-1)) / 2));
+                    wall.transform.localScale = new Vector3((chunkGridWidth * (mapChunkSize-1)), wallHeight, 1);
                     break;
                 //Horizontal Left
                 case 2:
-                    wall.transform.position = new Vector3(((chunkGridWidth * mapChunkSize) / 2) - 1, wallHeightOffset, 0);
-                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize)+1);
+                    wall.transform.position = new Vector3(((chunkGridWidth * (mapChunkSize-1)) / 2), wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * (mapChunkSize-1)));
                     break;
                 //Horizontal Right
                 case 3:
-                    wall.transform.position = new Vector3(-((chunkGridWidth * mapChunkSize) / 2) + 1, wallHeightOffset, 0);
-                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * mapChunkSize) + 1);
+                    wall.transform.position = new Vector3(-((chunkGridWidth * (mapChunkSize-1)) / 2), wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * (mapChunkSize-1)));
                     break;
             }
             terrainObjs.Add(wall);

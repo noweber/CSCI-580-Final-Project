@@ -16,10 +16,7 @@ MonoBehaviour:
   terrains:
   - name: Bottom
     height: 0
-    color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
-  - name: Medium
-    height: 0.25
-    color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
-  - name: Top
-    height: 0.75
     color: {r: 1, g: 1, b: 1, a: 1}
+  - name: Medium
+    height: 0.5
+    color: {r: 0, g: 0, b: 0, a: 1}

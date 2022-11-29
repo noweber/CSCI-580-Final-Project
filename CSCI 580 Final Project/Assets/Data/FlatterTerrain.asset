@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92648eea6e474de468ea972d600ebd11, type: 3}
-  m_Name: DefaultTerrainData
+  m_Name: FlatterTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformScale: 8
+  uniformScale: 1
   waterHeight: 1
   waterScale: 24
   useFlatShading: 1
-  useFalloff: 0
+  useFalloff: 1
   useCircleFalloff: 0
   circleFalloffRadius: 50
   circleFalloffGradient: 20
-  meshHeightMultiplier: 1
+  meshHeightMultiplier: 15
   meshAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -36,7 +36,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1.25
+      value: 0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
