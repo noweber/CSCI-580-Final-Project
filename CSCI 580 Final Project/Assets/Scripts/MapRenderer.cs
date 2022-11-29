@@ -9,7 +9,7 @@ public class MapRenderer : MonoBehaviour
     public void DrawTexture(Texture2D texture)
     {
         var tempMaterial = new Material(textureRender.sharedMaterial);
-        textureRender.sharedMaterial.mainTexture = texture;
+        tempMaterial.mainTexture = texture;
         textureRender.sharedMaterial = tempMaterial;
         // textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
     }

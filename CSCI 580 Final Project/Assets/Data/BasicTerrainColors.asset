@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaaa2d2aef50a4f4eacc6c5226137e46, type: 3}
+  m_Name: BasicTerrainColors
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  terrains:
+  - name: Water
+    height: 0
+    color: {r: 0, g: 0.78880596, b: 1, a: 1}
+  - name: Sand
+    height: 0.1
+    color: {r: 1, g: 0.9532694, b: 0.71132076, a: 1}
+  - name: Dirt
+    height: 0.25
+    color: {r: 0.4339623, g: 0.30595174, b: 0.16130295, a: 1}
+  - name: Grass
+    height: 0.45
+    color: {r: 0.18804216, g: 0.7169812, b: 0.07710925, a: 1}
+  - name: Stone
+    height: 0.65
+    color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  - name: Snow
+    height: 0.95
+    color: {r: 1, g: 1, b: 1, a: 1}
