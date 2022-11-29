@@ -63,18 +63,18 @@ public class WorldManager : MonoBehaviour
     {
         if (noiseData != null)
         {
-            noiseData.OnValuesUpdated -= OnValuesUpdated;
-            noiseData.OnValuesUpdated += OnValuesUpdated;
+            //noiseData.OnValuesUpdated -= OnValuesUpdated;
+            //noiseData.OnValuesUpdated += OnValuesUpdated;
         }
         if (terrainData != null)
         {
-            terrainData.OnValuesUpdated -= OnValuesUpdated;
-            terrainData.OnValuesUpdated += OnValuesUpdated;
+            //terrainData.OnValuesUpdated -= OnValuesUpdated;
+            //terrainData.OnValuesUpdated += OnValuesUpdated;
         }
         if (textureData != null)
         {
-            textureData.OnValuesUpdated -= OnValuesUpdated;
-            textureData.OnValuesUpdated += OnValuesUpdated;
+            //textureData.OnValuesUpdated -= OnValuesUpdated;
+            //textureData.OnValuesUpdated += OnValuesUpdated;
         }
     }
 
