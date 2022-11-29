@@ -46,10 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Seed: 0
   Iterations: 6
-  IterationVariance: 1
+  IterationVariance: 2
   HardCodedFractal: 
   Angle: 45
-  RandomAngle: 0
+  RandomAngle: 1
   BranchMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   BranchMaterial: {fileID: 2100000, guid: 08c3169699be3554ca750a391fa3fb2b, type: 2}
   BranchMeshSize: {x: 1, y: 1, z: 1}
