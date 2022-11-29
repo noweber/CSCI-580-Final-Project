@@ -13,12 +13,12 @@ public class WorldManagerEditor : Editor
         {
             if (worldManager.AutoUpdate)
             {
-                worldManager.DrawMapInEditor();
+                //worldManager.DrawMapInEditor();
             }
         }
         if (GUILayout.Button("Generate"))
         {
-            worldManager.DrawMapInEditor();
+            //worldManager.DrawMapInEditor();
         }
 
     }

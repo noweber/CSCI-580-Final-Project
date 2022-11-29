@@ -88,10 +88,10 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Grass_Color: {r: 0, g: 0.735849, b: 0.04626809, a: 0}
-    - _Mountain_Color: {r: 0.45283014, g: 0.45283014, b: 0.45283014, a: 0}
-    - _Sand_Color: {r: 0.735849, g: 0.722142, b: 0, a: 0}
-    - _Snow_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Grass_Color: {r: 0, g: 0.735849, b: 0.04626806, a: 1}
+    - _Mountain_Color: {r: 0.45283008, g: 0.45283008, b: 0.45283008, a: 1}
+    - _Sand_Color: {r: 0.7607843, g: 0.69803923, b: 0.5019608, a: 1}
+    - _Snow_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2419111822849563614
 MonoBehaviour:
