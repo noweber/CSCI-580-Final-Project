@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockTreeFractal : MonoBehaviour
+public class RandomBlockTreeFractal : MonoBehaviour
 {
     public string TreeIdenfitier = string.Empty;
     public int MaxTreeNodeDepth = 8;
@@ -20,6 +20,7 @@ public class BlockTreeFractal : MonoBehaviour
     private int maxNumberOfChildNodes = 1;
     private List<GameObject> childFractals;
     private bool finishedAddingChildren = false;
+    public int UpwardGrowthChanceModifier = 10;
 
     private void Start()
     {
@@ -72,7 +73,7 @@ public class BlockTreeFractal : MonoBehaviour
     private float secondsSinceLastGrowthAnimation = 0;
     void Update()
     {
-        if(finishedAddingChildren)
+        if (finishedAddingChildren)
         {
             return;
         }
@@ -119,11 +120,11 @@ public class BlockTreeFractal : MonoBehaviour
         Debug.Log("AddChildNode()");
         GameObject childFractal = new GameObject("fractal:" + childId);
         this.childFractals.Add(childFractal);
-        childFractal.AddComponent<BlockTreeFractal>().Initialize(this, childDirection);
+        childFractal.AddComponent<RandomBlockTreeFractal>().Initialize(this, childDirection);
         // TODO: Implement a method to delete all children so the fract can be regenerated.
     }
 
-    private void Initialize(BlockTreeFractal parentNode, Vector3 childDirection)
+    private void Initialize(RandomBlockTreeFractal parentNode, Vector3 childDirection)
     {
         Debug.Log("Initialize()");
         this.BranchMesh = parentNode.BranchMesh;
@@ -151,30 +152,31 @@ public class BlockTreeFractal : MonoBehaviour
         int numberOfAttempts = 0;
         while (result == Vector3.zero || (childDirectionsUsed.Contains(result) && numberOfAttempts < 5))
         {
-            int selection = Random.Range(0, 16);
-            if (selection < 5)
-            {
-                result = Vector3.up;
-            }
-            else if (selection == 5)
+            int selectRangeMax = 6 + this.UpwardGrowthChanceModifier;
+            int selection = Random.Range(0, selectRangeMax);
+            if (selection == 0)
             {
                 result = Vector3.right;
             }
-            else if (selection == 6)
+            else if (selection == 1)
             {
                 result = Vector3.left;
             }
-            else if (selection == 7)
+            else if (selection == 2)
             {
                 result = Vector3.forward;
             }
-            else if (selection == 8)
+            else if (selection == 3)
             {
                 result = Vector3.back;
             }
-            else if (selection == 9)
+            else if (selection == 4)
             {
                 result = Vector3.down;
+            }
+            else if (selection < selectRangeMax)
+            {
+                result = Vector3.up;
             }
             else
             {
