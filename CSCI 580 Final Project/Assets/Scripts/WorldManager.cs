@@ -29,6 +29,8 @@ public class WorldManager : MonoBehaviour
     public int editorLevelofDetail;
     [SerializeField] TerrainData terrainData;
     [SerializeField] ObjectPopulator objectPopulator;
+    [SerializeField] GameObject waterPrefab;
+    [SerializeField] CameraManager cameraManager;
 
     float[,] falloffMap;
     float[,] circleFalloffMap;
@@ -37,14 +39,14 @@ public class WorldManager : MonoBehaviour
 
     private void Awake()
     {
-        DrawMapInEditor();
+        //DrawMapInEditor();
     }
 
     void OnValuesUpdated()
     {
         if (!Application.isPlaying)
         {
-            DrawMapInEditor();
+            //DrawMapInEditor();
         }
     }
 
@@ -79,8 +81,15 @@ public class WorldManager : MonoBehaviour
 
     }
 
-    public void DrawMapInEditor()
+    public void DrawMapInEditor(TerrainMode terrainMode,int seed = 0)
     {
+        noiseData = terrainMode.noiseData;
+        textureData = terrainMode.textureData;
+        terrainData = terrainMode.terrainData;
+        if(seed != 0)
+        {
+            noiseData.seed = seed;
+        }
         if(terrainObjs == null)
         {
             terrainObjs = new List<GameObject>();
@@ -122,8 +131,6 @@ public class WorldManager : MonoBehaviour
                     terrainObjectParent.transform.parent = noiseMapRenderer.transform;
                     terrainObjectParent.transform.localPosition = Vector3.zero;
                     objectPopulator.SpawnObjects(noiseMapRenderer.transform, noiseData, terrainData, mapData.heightMap, mapChunkSize, terrainObjectParent.transform);
-                    //noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
-                    //noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
                     terrainObjs.Add(noiseMapRenderer);
                 }
             }
@@ -135,30 +142,40 @@ public class WorldManager : MonoBehaviour
             {
                 //Vertical Top
                 case 0:
-                    wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * (mapChunkSize-1))/2));
+                    wall.transform.position = new Vector3(0,wallHeightOffset,((chunkGridHeight * (mapChunkSize-1))/2.0f));
                     wall.transform.localScale = new Vector3((chunkGridWidth * (mapChunkSize-1)), wallHeight, 1);
                     break;
                 //Vertical Bottom
                 case 1:
-                    wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * (mapChunkSize-1)) / 2));
+                    wall.transform.position = new Vector3(0, wallHeightOffset,(-(chunkGridHeight * (mapChunkSize-1)) / 2.0f));
                     wall.transform.localScale = new Vector3((chunkGridWidth * (mapChunkSize-1)), wallHeight, 1);
                     break;
                 //Horizontal Left
                 case 2:
-                    wall.transform.position = new Vector3(((chunkGridWidth * (mapChunkSize-1)) / 2), wallHeightOffset, 0);
-                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * (mapChunkSize-1)));
+                    wall.transform.position = new Vector3(((chunkGridWidth * (mapChunkSize-1)) / 2.0f), wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, 1+(chunkGridHeight * (mapChunkSize-1)));
                     break;
                 //Horizontal Right
                 case 3:
-                    wall.transform.position = new Vector3(-((chunkGridWidth * (mapChunkSize-1)) / 2), wallHeightOffset, 0);
-                    wall.transform.localScale = new Vector3(1, wallHeight, (chunkGridHeight * (mapChunkSize-1)));
+                    wall.transform.position = new Vector3(-((chunkGridWidth * (mapChunkSize-1)) / 2.0f), wallHeightOffset, 0);
+                    wall.transform.localScale = new Vector3(1, wallHeight, 1+(chunkGridHeight * (mapChunkSize-1)));
                     break;
             }
             terrainObjs.Add(wall);
         }
         float gridWidthMultiplier = chunkGridWidth-1;
         float gridHeightMultiplier = chunkGridHeight-1;
-        this.transform.position = new Vector3(gridWidthMultiplier*-((mapChunkSize-1)/2),0,gridHeightMultiplier*-((mapChunkSize-1)/2));
+        this.transform.position = new Vector3(gridWidthMultiplier*-((mapChunkSize-1)/2.0f),0,gridHeightMultiplier*-((mapChunkSize-1)/2.0f));
+
+        //Generating Water
+        var newWater = Instantiate(waterPrefab);
+        newWater.transform.parent = this.transform;
+        newWater.transform.localPosition = new Vector3(gridWidthMultiplier * (mapChunkSize-1)*.5f, terrainData.waterHeight, gridHeightMultiplier * (mapChunkSize - 1) * .5f);
+        newWater.transform.localScale = new Vector3(9.9f * chunkGridWidth, 1, 9.9f * chunkGridHeight);
+        terrainObjs.Add(newWater);
+
+        //Camera Controls
+        cameraManager.InitCameraPos(new Vector3(gridWidthMultiplier * (mapChunkSize - 1) * .5f, terrainData.waterHeight, gridHeightMultiplier * (mapChunkSize - 1) * .5f));
     }
 
     MapData GenerateMapData(Vector2 center)

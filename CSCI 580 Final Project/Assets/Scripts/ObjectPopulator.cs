@@ -24,7 +24,7 @@ public class ObjectPopulator : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast((new Vector3(spawnX, raycastStartHeight, spawnZ) * terrainData.uniformScale) + parentMesh.position, transform.TransformDirection(-Vector3.up), out hit, Mathf.Infinity))
                 {
-                    Debug.Log("Hit");
+                    //Debug.Log("Hit");
                     GameObject obj = Instantiate(prefabToSpawn, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0), parentObj);
                 }
                 else
