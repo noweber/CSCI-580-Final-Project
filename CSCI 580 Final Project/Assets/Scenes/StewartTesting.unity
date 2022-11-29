@@ -955,8 +955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastStartHeight: 50
-  minPoissonRadius: 3
-  maxPoissonRadius: 4
+  minPoissonRadius: 8
+  maxPoissonRadius: 9
   minSpawnHeight: 0.2
   maxSpawnHeight: 0.4
 --- !u!1 &741273103
@@ -1967,8 +1967,16 @@ MonoBehaviour:
   treeButton: {fileID: 741273105}
   shaderButton: {fileID: 465078657}
   terrainModes:
-  - modeName: Landmass
+  - modeName: Normal Land
     noiseData: {fileID: 11400000, guid: 3264f0892992a394e90239abd4a0eeda, type: 2}
+    textureData: {fileID: 11400000, guid: 3f0a280bc48cc5940add762e80fd5ecc, type: 2}
+    terrainData: {fileID: 11400000, guid: 94724855cfd11d5438356cee542566d7, type: 2}
+  - modeName: Low Octaves
+    noiseData: {fileID: 11400000, guid: e3ce2d0a5e344e44eb7873288832f6e2, type: 2}
+    textureData: {fileID: 11400000, guid: 3f0a280bc48cc5940add762e80fd5ecc, type: 2}
+    terrainData: {fileID: 11400000, guid: 94724855cfd11d5438356cee542566d7, type: 2}
+  - modeName: High Octaves
+    noiseData: {fileID: 11400000, guid: 7d8775dc568b02f44a1caf4503562287, type: 2}
     textureData: {fileID: 11400000, guid: 3f0a280bc48cc5940add762e80fd5ecc, type: 2}
     terrainData: {fileID: 11400000, guid: 94724855cfd11d5438356cee542566d7, type: 2}
   - modeName: Square Islands
