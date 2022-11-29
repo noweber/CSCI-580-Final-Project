@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92648eea6e474de468ea972d600ebd11, type: 3}
-  m_Name: Falloff
+  m_Name: FalloffCirc
   m_EditorClassIdentifier: 
   autoUpdate: 1
   uniformScale: 1
@@ -18,7 +18,7 @@ MonoBehaviour:
   waterScale: 24
   useFlatShading: 1
   useFalloff: 1
-  useCircleFalloff: 0
+  useCircleFalloff: 1
   circleFalloffRadius: 57.2
   circleFalloffGradient: 30.3
   meshHeightMultiplier: 30
