@@ -21,6 +21,8 @@ public class WorldManager : MonoBehaviour
     [SerializeField] NoiseData noiseData;
     [SerializeField] TextureData textureData;
     [SerializeField] GameObject noiseMapRendererPrefab;
+    [SerializeField] Material shaderGraphMaterial;
+    [SerializeField] Material noiseMapMaterial;
 
     //[Header("Noise Map Data")]
 
@@ -37,6 +39,8 @@ public class WorldManager : MonoBehaviour
 
     List<GameObject> terrainObjs;
 
+    Shading curShadingMode;
+
     private void Awake()
     {
         //DrawMapInEditor();
@@ -48,6 +52,11 @@ public class WorldManager : MonoBehaviour
         {
             //DrawMapInEditor();
         }
+    }
+
+    public void SetShadingMode(Shading shading)
+    {
+        curShadingMode = shading;
     }
 
     private void OnValidate()
@@ -124,6 +133,21 @@ public class WorldManager : MonoBehaviour
                     var noiseMapRenderer = Instantiate(noiseMapRendererPrefab, new Vector3(chunkPos.x, 0, chunkPos.y), Quaternion.identity, this.transform);
                     noiseMapRenderer.GetComponent<MapRenderer>().DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshAnimationCurve, editorLevelofDetail, terrainData.useFlatShading), TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
                     noiseMapRenderer.AddComponent<MeshCollider>();
+                    switch(curShadingMode)
+                    {
+                        case Shading.Shader:
+                            noiseMapRenderer.GetComponent<MeshRenderer>().material = shaderGraphMaterial;
+                            break;
+                        case Shading.NoiseMap:
+                            noiseMapRenderer.GetComponent<MeshRenderer>().material = noiseMapMaterial;
+                            noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromNoiseMap(mapData.heightMap));
+                            break;
+                        case Shading.ColorMap:
+                            noiseMapRenderer.GetComponent<MeshRenderer>().material = noiseMapMaterial;
+                            noiseMapRenderer.GetComponent<MapRenderer>().DrawTexture(TextureGenerator.TextureFromColorMap(mapData.colorMap, mapChunkSize, mapChunkSize));
+                            break;
+                    }
+
                     //Object Container
                     noiseMapRenderer.tag = "Terrain";
                     GameObject terrainObjectParent = new GameObject();
